@@ -2,16 +2,17 @@ import os
 import google.generativeai as genai
 from transformers import DistilBertTokenizerFast, DistilBertForQuestionAnswering
 import torch
+from dotenv import load_dotenv
 
 # -----------------------------
 # 1. Configure Gemini API
 # -----------------------------
-# Paste your new API key here
-api_key = "REMOVED_API_KEY"
+# Load API key from environment (.env file)
+load_dotenv()
+api_key = os.getenv("GOOGLE_API_KEY")
 
-# Safer way: store it as environment variable
-# In PowerShell: setx GEMINI_API_KEY "REMOVED_API_KEY"
-# api_key = os.getenv("GEMINI_API_KEY")
+if not api_key:
+    raise ValueError("GOOGLE_API_KEY not found. Please set it in your .env file.")
 
 genai.configure(api_key=api_key)
 
@@ -21,8 +22,9 @@ gemini_model = genai.GenerativeModel("gemini-3.6-flash")
 # -----------------------------
 # 2. Load DistilBERT QA model
 # -----------------------------
-tokenizer = DistilBertTokenizerFast.from_pretrained("student-support-chatbot/models/distilbert_qa")
-qa_model = DistilBertForQuestionAnswering.from_pretrained("student-support-chatbot/models/distilbert_qa")
+# Use Hugging Face model instead of local heavy files
+tokenizer = DistilBertTokenizerFast.from_pretrained("distilbert-base-uncased-distilled-squad")
+qa_model = DistilBertForQuestionAnswering.from_pretrained("distilbert-base-uncased-distilled-squad")
 
 # -----------------------------
 # 3. DistilBERT QA Answer
@@ -63,9 +65,3 @@ if __name__ == "__main__":
 
     print("Direct:", chatbot_response(q1))
     print("Indirect:", chatbot_response(q2))
-
-
-
-
-
-
