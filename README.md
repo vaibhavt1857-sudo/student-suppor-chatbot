@@ -152,38 +152,47 @@ For open-ended conversational requests, creative drafting, or queries extending 
 ## Multi-Modal Pipeline Execution Flow
 
 ```text
-                                +-------------------+
-                                |  User Query Input |
-                                +---------+---------+
-                                          |
-                                    [Input Type?]
-                                   /      |                                    (Audio)  (Image)  (Text)
-                                 /        |                                        v         v         v
-                            Speech.py   OCR.py    Sanitization
-                                 \        |        /
-                                  +---+---+---+---+
-                                      | Normalized Text
-                                      v
-                             +-----------------+
-                             | Intent Matcher  |
-                             | (intents.json)  |
-                             +--------+--------+
-                                      |
-                           [High Confidence Match?]
-                          /                                            (Yes)/                          \(No)
-                        v                            v
-              +-------------------+        +--------------------+
-              | Instant Response  |        | DistilBERT QA      |
-              | (Deterministic)   |        | Inference Engine   |
-              +-------------------+        +---------+----------+
-                                                     |
-                                         [Context Found / High F1?]
-                                        /                                                            (Yes)/                            \(No)
-                                      v                              v
-                           +-------------------+          +--------------------+
-                           | DistilBERT Answer |          | Google Gemini API  |
-                           +-------------------+          | Generative Fallback|
-                                                          +--------------------+
+                                ## Multi-Modal Pipeline Execution Flow
+
+### Flowchart Diagram
+```text
++-------------------+
+|  User Query Input |
++---------+---------+
+          |
+     [Input Type?]
+   /     |      \
+(Audio) (Image) (Text)
+   v       v       v
+Speech.py OCR.py  Sanitization
+   \       |       /
+    +-------+-------+
+            |
+     Normalized Text
+            v
++-------------------+
+| Intent Matcher    |
+| (intents.json)    |
++---------+---------+
+          |
+ [High Confidence?]
+   /              \
+ (Yes)            (No)
+   v               v
++----------------+ +--------------------+
+| Instant Response| | DistilBERT QA      |
+| (Deterministic) | | Inference Engine   |
++----------------+ +---------+----------+
+                             |
+                 [Context Found / High F1?]
+                   /                     \
+                 (Yes)                  (No)
+                   v                     v
+        +-------------------+   +--------------------+
+        | DistilBERT Answer |   | Google Gemini API  |
+        +-------------------+   | Generative Fallback|
+                                +--------------------+
+
 ```
 
 ### Detailed Pipeline Stages:
