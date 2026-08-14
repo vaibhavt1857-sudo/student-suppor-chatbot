@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Elementra — AI Learning Companion</title>
+  
+  <!-- Modern Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-color: #0b0f19;
+      --card-bg: rgba(18, 24, 38, 0.7);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent-cyan: #38bdf8;
+      --accent-purple: #a855f7;
+      --accent-pink: #ec4899;
+      --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #a855f7 50%, #ec4899 100%);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient Glow Background Elements */
+    .glow-bg {
+      position: fixed;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      filter: blur(140px);
+      z-index: -1;
+      opacity: 0.25;
+      pointer-events: none;
+    }
+    .glow-1 { top: -100px; left: -100px; background: var(--accent-cyan); }
+    .glow-2 { bottom: -100px; right: -100px; background: var(--accent-purple); }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 4rem 1.5rem;
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      margin-bottom: 3.5rem;
+      animation: fadeIn 1s ease-out;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.4rem 1.2rem;
+      border-radius: 50px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      color: var(--accent-cyan);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-size: 3.25rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 1.2rem;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 680px;
+      margin: 0 auto;
+      font-weight: 400;
+    }
+
+    .creator-tag {
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+    .creator-tag strong {
+      color: var(--text-main);
+    }
+
+    /* Glass Card Sections */
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: rgba(255, 255, 255, 0.18);
+      transform: translateY(-2px);
+    }
+
+    h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    p {
+      color: #cbd5e1;
+      font-size: 1.05rem;
+      margin-bottom: 1.25rem;
+      font-weight: 400;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Grid for Features & Tech Stack */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+
+    .grid-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 14px;
+      padding: 1.25rem;
+    }
+
+    .grid-item h3 {
+      font-size: 1.1rem;
+      color: var(--accent-cyan);
+      margin-bottom: 0.4rem;
+    }
+
+    .grid-item p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 0;
+    }
+
+    /* Custom Bullet List */
+    ul {
+      list-style: none;
+      margin-top: 1rem;
+    }
+
+    ul li {
+      position: relative;
+      padding-left: 1.75rem;
+      margin-bottom: 0.8rem;
+      color: #cbd5e1;
+      font-size: 1.05rem;
+    }
+
+    ul li::before {
+      content: "✦";
+      position: absolute;
+      left: 0;
+      color: var(--accent-purple);
+      font-size: 1rem;
+    }
+
+    /* Footer / Conclusion Block */
+    .conclusion-card {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.08) 0%, rgba(168, 85, 247, 0.08) 100%);
+      border: 1px solid rgba(168, 85, 247, 0.25);
+      text-align: center;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 0;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      border-top: 1px solid var(--card-border);
+      margin-top: 3rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .container { padding: 2.5rem 1rem; }
+      h1 { font-size: 2.4rem; }
+      .card { padding: 1.75rem; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow-bg glow-1"></div>
+  <div class="glow-bg glow-2"></div>
+
+  <main class="container">
+    
+    <!-- Hero Section -->
+    <header class="hero">
+      <span class="badge">AI-Powered Educational Companion</span>
+      <h1>Elementra</h1>
+      <p class="subtitle">Where Artificial Intelligence, Education, and Creativity Converge.</p>
+      <div class="creator-tag">Conceived & Developed by <strong>Vaibhav Kumar Tiwari</strong></div>
+    </header>
+
+    <!-- Introduction -->
+    <section class="card">
+      <h2>✨ Introduction</h2>
+      <p>Elementra is more than just a chatbot — it is a vision brought to life. Conceived and developed by Vaibhav Kumar Tiwari, Elementra represents the fusion of artificial intelligence, education, and creativity.</p>
+      <p>The project was born out of a desire to make learning more interactive, accessible, and engaging for students across disciplines. In today’s world, where information is abundant but guidance is scarce, Elementra steps in as a supportive companion, offering clarity, context, and creativity.</p>
+    </section>
+
+    <!-- The Philosophy -->
+    <section class="card">
+      <h2>💡 The Philosophy Behind Elementra</h2>
+      <p>At its core, Elementra is built on the belief that technology should empower learners rather than overwhelm them. Many students struggle with finding reliable answers, organizing their study materials, or even staying motivated. Traditional search engines provide information, but they often lack personalization and context. Elementra bridges this gap by combining natural language understanding with generative AI, ensuring that responses are not only accurate but also tailored to the learner’s needs.</p>
+      <p>The philosophy guiding Elementra is simple: <em>education should be a dialogue, not a monologue.</em> By allowing students to ask questions in natural language and receive thoughtful, contextual answers, Elementra transforms passive learning into active engagement. It is not just about providing facts; it is about fostering curiosity, encouraging exploration, and nurturing creativity.</p>
+    </section>
+
+    <!-- Technical Foundation -->
+    <section class="card">
+      <h2>⚙️ Technical Foundation</h2>
+      <p>Elementra integrates multiple cutting-edge technologies to deliver a seamless learning experience:</p>
+      
+      <div class="grid">
+        <div class="grid-item">
+          <h3>DistilBERT</h3>
+          <p>A lightweight transformer model used for intent recognition and extracting precise answers from context.</p>
+        </div>
+        <div class="grid-item">
+          <h3>Gemini AI</h3>
+          <p>Generates natural, fluid, and human-like conversational responses to ensure depth and warmth.</p>
+        </div>
+        <div class="grid-item">
+          <h3>Stable Diffusion</h3>
+          <p>Generates conceptual diagrams and visual representations based on prompts to make abstract ideas tangible.</p>
+        </div>
+        <div class="grid-item">
+          <h3>Flask Backend</h3>
+          <p>Wraps the system in a responsive web interface for smooth, high-accessibility user interaction.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Educational Purpose -->
+    <section class="card">
+      <h2>🎓 Educational Purpose</h2>
+      <p>Elementra is designed with students in mind. Its primary purpose is to act as a study companion that can:</p>
+      <ul>
+        <li>Answer academic questions across various subjects.</li>
+        <li>Provide explanations in simple, digestible language.</li>
+        <li>Generate creative content for projects and assignments.</li>
+        <li>Assist with study materials, summaries, and practice questions.</li>
+        <li>Offer motivational support through conversational engagement.</li>
+      </ul>
+    </section>
+
+    <!-- Developer's Vision -->
+    <section class="card">
+      <h2>🚀 Developer’s Vision</h2>
+      <p>Vaibhav Kumar Tiwari envisioned Elementra as more than a technical project. It is a reflection of his passion for artificial intelligence and education. The vision is to create tools that democratize learning — making advanced AI accessible to students everywhere, regardless of their background. Vaibhav believes that AI should not replace teachers or mentors but should complement them, providing additional support where needed.</p>
+    </section>
+
+    <!-- Features in Detail -->
+    <section class="card">
+      <h2>🔍 Features in Detail</h2>
+      <div class="grid">
+        <div class="grid-item">
+          <h3>Identity Responses</h3>
+          <p>Elementra introduces itself proudly, reinforcing its unique identity as a dedicated student assistant.</p>
+        </div>
+        <div class="grid-item">
+          <h3>Contextual QA</h3>
+          <p>Extracts precise answers directly from provided context using DistilBERT.</p>
+        </div>
+        <div class="grid-item">
+          <h3>Generative Replies</h3>
+          <p>Leverages Gemini for rich, engaging, and conversational dialogue.</p>
+        </div>
+        <div class="grid-item">
+          <h3>Image Generation</h3>
+          <p>Incorporates Stable Diffusion so students can visualize complex concepts easily.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Future Outlook -->
+    <section class="card">
+      <h2>🔮 Future Outlook</h2>
+      <p>Elementra is a growing project. Future updates may include:</p>
+      <ul>
+        <li>Integration with databases for subject-specific knowledge.</li>
+        <li>Advanced personalization, adapting to each student’s learning style.</li>
+        <li>Expanded visual generation for diagrams and charts.</li>
+        <li>Support for multiple languages, making it accessible globally.</li>
+        <li>Mobile app deployment for on-the-go learning.</li>
+      </ul>
+    </section>
+
+    <!-- Conclusion Card -->
+    <section class="card conclusion-card">
+      <h2>🌟 Conclusion</h2>
+      <p>Elementra is not just a chatbot — it is a learning companion, a creative partner, and a vision for the future of education. Built with passion and precision by <strong>Vaibhav Kumar Tiwari</strong>, it represents the possibilities of AI when applied thoughtfully to real-world challenges.</p>
+      <p style="margin-top: 1rem; font-weight: 500; color: var(--accent-cyan);">Empowering students, fostering curiosity, and making education a journey of discovery.</p>
+    </section>
+
+    <footer>
+      <p>© Elementra — Created by Vaibhav Kumar Tiwari</p>
+    </footer>
+
+  </main>
+
+  <script>
+    // Smooth scroll and subtle interactive card visual effect
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--x', `${x}px`);
+        card.style.setProperty('--y', `${y}px`);
+      });
+    });
+  </script>
+</body>
+</html>

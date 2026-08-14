@@ -1,0 +1,7 @@
+{
+  "host": "localhost",
+  "port": 5432,
+  "user": "student_admin",
+  "password": "securepassword",
+  "database": "student_chatbot"
+}

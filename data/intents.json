@@ -1,0 +1,120 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "hello", "hi", "hey", "good morning", "good evening",
+        "yo", "hiya", "howdy", "sup", "what's up",
+        "greetings", "salutations", "namaste", "hola", "bonjour",
+        "hi there", "hey there", "morning", "evening", "good day",
+        "long time no see", "how are you", "nice to meet you"
+      ],
+      "responses": ["Hello! How can I help you today?"]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": [
+        "bye", "goodbye", "see you", "goodnight", "farewell",
+        "catch you later", "take care", "peace out", "ciao", "adios",
+        "see ya", "talk to you later", "until next time", "later buddy"
+      ],
+      "responses": ["Goodbye! Have a great day."]
+    },
+    {
+      "tag": "name",
+      "patterns": [
+        "what is your name", "who are you", "tell me your name",
+        "may I know your name", "introduce yourself", "your identity",
+        "what should I call you", "who am I talking to", "do you have a name"
+      ],
+      "responses": ["I’m Elementra, your AI assistant."]
+    },
+    {
+      "tag": "thanks",
+      "patterns": [
+        "thanks", "thank you", "appreciate it", "cheers", "many thanks",
+        "grateful", "thank you so much", "thanks a lot", "thanks buddy",
+        "thanks for your help", "thanks a ton"
+      ],
+      "responses": ["You're welcome! Happy to help."]
+    },
+    {
+      "tag": "help",
+      "patterns": [
+        "can you help me", "i need help", "assist me", "support me",
+        "please help", "help me with this", "i need assistance",
+        "can you guide me", "i need support"
+      ],
+      "responses": ["Sure! Tell me what you need help with."]
+    },
+    {
+      "tag": "courses",
+      "patterns": [
+        "tell me about courses", "available courses", "list of courses",
+        "what subjects are offered", "course details", "programs available",
+        "what majors are there", "study options", "academic programs"
+      ],
+      "responses": ["We offer a variety of courses. Could you specify which program or subject you’re interested in?"]
+    },
+    {
+      "tag": "exams",
+      "patterns": [
+        "exam schedule", "when are exams", "test dates", "upcoming exams",
+        "exam timetable", "exam information", "exam routine", "exam calendar"
+      ],
+      "responses": ["Exam schedules are published on the student portal. Do you want me to guide you there?"]
+    },
+    {
+      "tag": "fees",
+      "patterns": [
+        "fee structure", "tuition fees", "how much is the fee",
+        "payment details", "college fees", "semester fees",
+        "exam fees", "hostel fees", "fee information"
+      ],
+      "responses": ["You can check the latest fee structure on the accounts section of the student portal."]
+    },
+    {
+      "tag": "library",
+      "patterns": [
+        "library hours", "when is library open", "library timings",
+        "library schedule", "library information", "library services",
+        "library rules", "library facilities"
+      ],
+      "responses": ["The library is open from 9 AM to 8 PM on weekdays, and 10 AM to 5 PM on weekends."]
+    },
+    {
+      "tag": "hostel",
+      "patterns": [
+        "hostel details", "hostel facilities", "hostel rules",
+        "hostel timings", "hostel information", "student accommodation",
+        "living arrangements", "hostel fee"
+      ],
+      "responses": ["Hostel facilities include accommodation, dining, and study areas. Please check the hostel office for detailed rules and fees."]
+    },
+    {
+      "tag": "results",
+      "patterns": [
+        "exam results", "test results", "marks", "grades",
+        "when will results come", "result date", "publish results"
+      ],
+      "responses": ["Results are published on the student portal. You can log in with your credentials to view them."]
+    },
+    {
+      "tag": "admission",
+      "patterns": [
+        "admission process", "how to apply", "application form",
+        "admission requirements", "eligibility criteria", "admission details"
+      ],
+      "responses": ["Admission details are available on the official website. You can apply online and check eligibility criteria there."]
+    },
+    {
+      "tag": "contact",
+      "patterns": [
+        "contact office", "college phone number", "email address",
+        "how to reach administration", "student support contact"
+      ],
+      "responses": ["You can reach the student support office via email at support@college.edu or call +91-1234567890."]
+    }
+  ]
+}
+

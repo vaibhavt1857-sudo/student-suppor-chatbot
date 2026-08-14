@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elementra</title>
+  <!-- Google Fonts import -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@400;600;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="navbar">
+    <div class="nav-brand">
+      <span class="brand-text">ELEMENTRA</span>
+    </div>
+
+    <!-- Navigation Links -->
+    <nav class="nav-links">
+      <a href="/" onclick="switchWorkspace('chat')">HOME</a>
+      
+      <!-- Connects to templates/about.html via Flask -->
+      <a href="/about-us">ABOUT US</a>
+      
+      <!-- Connects to templates/features.html via Flask -->
+      <a href="/features">AI FEATURES</a>
+      
+      <!-- Connects to templates/join.html via Flask -->
+      <a href="/join-us">JOIN US</a>
+      
+      <!-- Connects to templates/news.html via Flask -->
+      <a href="/news">NEWS</a>
+    </nav>
+
+    <!-- Logos Section -->
+    <section class="logos">
+      <a href="https://github.com" target="_blank"><img src="/static/images/github.webp" alt="GitHub"></a>
+      <a href="https://google.com" target="_blank"><img src="/static/images/google.webp" alt="Google"></a>
+      <a href="https://klarna.com" target="_blank"><img src="/static/images/klarnaschulden.webp" alt="Klarna"></a>
+      <a href="https://asus.com" target="_blank"><img src="/static/images/asus.webp" alt="ASUS"></a>
+      <a href="https://logitech.com" target="_blank"><img src="/static/images/logitech.webp" alt="Logitech"></a>
+      <a href="https://platform.openai.com/docs/guides/chat" target="_blank"><img src="/static/images/chatgpt.webp" alt="ChatGPT 3.5"></a>
+      <a href="https://platform.openai.com/docs/guides/chat" target="_blank"><img src="/static/images/chatgptwriter.webp" alt="ChatGPT 4.0"></a>
+      <a href="https://deepmind.google/technologies/gemini/" target="_blank"><img src="/static/images/gemini.webp" alt="Gemini"></a>
+    </section>
+
+    <!-- Dropdown CTA Button -->
+    <div class="nav-right dropdown-container">
+      <button class="try-btn" id="dropdown-btn" onclick="toggleDropdown()">TRY AI EFFECTS ▾</button>
+      <div class="dropdown-menu" id="dropdown-menu">
+        <a href="#" class="dropdown-item" onclick="openImageGenPage(event)">🎨 Create Image</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sidebar Toggle Button -->
+  <button class="sidebar-toggle-btn" id="sidebar-toggle-btn" onclick="toggleSidebar()" title="Toggle Sidebar">«</button>
+
+  <!-- Sidebar Container -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h2 class="sidebar-title">SAVED PAGES ARCHIVE</h2>
+      <button class="new-chat-btn" onclick="startNewSession()">+ New Session</button>
+    </div>
+    <ul id="saved-pages" class="saved-pages-list"></ul>
+  </aside>
+
+  <!-- ================= 1. Main Chat Workspace ================= -->
+  <main class="chat-area workspace-view" id="chat-workspace">
+    <div class="chat-window" id="chat-window"></div>
+    
+    <div class="chat-input-container">
+      <button class="speech-btn mic-btn" title="Click to Speak" onclick="toggleSpeechRecognition('chat')">
+        <svg viewBox="0 0 24 24" class="mic-icon">
+          <path fill="currentColor" d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.49 6-3.31 6-6.72h-1.7z"/>
+        </svg>
+      </button>
+
+      <input type="text" id="user-input" placeholder="ASK ANY THING" autocomplete="off" onkeydown="if(event.key === 'Enter') sendMessage()">
+      <button class="send-btn" onclick="sendMessage()">SEND</button>
+    </div>
+  </main>
+
+  <!-- ================= 2. Image Creation Workspace ================= -->
+  <main class="chat-area workspace-view hidden-workspace" id="image-workspace">
+    <div class="chat-window image-gallery-window" id="image-gallery-window">
+      <div class="bot-msg initial-image-prompt">
+        ✨ Welcome to Image Studio! Enter a prompt below to generate custom images.
+      </div>
+    </div>
+    
+    <div class="chat-input-container">
+      <button class="speech-btn mic-btn" title="Click to Speak" onclick="toggleSpeechRecognition('image')">
+        <svg viewBox="0 0 24 24" class="mic-icon">
+          <path fill="currentColor" d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.49 6-3.31 6-6.72h-1.7z"/>
+        </svg>
+      </button>
+
+      <input type="text" id="image-prompt-input" placeholder="DESCRIBE THE IMAGE YOU WANT TO GENERATE..." autocomplete="off" onkeydown="if(event.key === 'Enter') generateImage()">
+      <button class="send-btn" onclick="generateImage()">GENERATE</button>
+    </div>
+  </main>
+
+  <!-- Speech Popup Overlay -->
+  <div id="speech-popup" class="speech-popup hidden">
+    <div class="speech-popup-content">
+      <div class="pulse-ring">
+        <svg viewBox="0 0 24 24" class="popup-mic-icon">
+          <path fill="currentColor" d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.49 6-3.31 6-6.72h-1.7z"/>
+        </svg>
+      </div>
+      <p id="speech-status">Listening...</p>
+      <button class="stop-speech-btn" onclick="stopSpeechRecognition()">Done</button>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+</body>
+</html>

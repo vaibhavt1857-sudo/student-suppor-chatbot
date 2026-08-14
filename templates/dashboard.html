@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>📊 Chatbot Dashboard</title>
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1>📊 Student Support Chatbot Dashboard</h1>
+            <p>Monitor queries, responses, and system performance</p>
+        </header>
+
+        <section class="stats">
+            <div class="card">
+                <h2>Total Queries</h2>
+                <p id="total-queries">0</p>
+            </div>
+            <div class="card">
+                <h2>Most Asked Topic</h2>
+                <p id="top-topic">Library Timings</p>
+            </div>
+            <div class="card">
+                <h2>Escalations</h2>
+                <p id="escalations">0</p>
+            </div>
+        </section>
+
+        <section class="logs">
+            <h2>Recent Queries</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student Query</th>
+                        <th>Bot Response</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody id="query-log">
+                    <!-- Rows will be dynamically added -->
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <script src="/static/js/dashboard.js"></script>
+</body>
+</html>

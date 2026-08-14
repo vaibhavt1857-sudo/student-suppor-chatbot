@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Connect with Vaibhav Kumar Tiwari</title>
+  
+  <!-- Modern Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #070a12;
+      --card-bg: rgba(15, 23, 42, 0.75);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      
+      /* Brand Colors */
+      --linkedin-blue: #0a66c2;
+      --linkedin-hover: #004182;
+      --x-black: #0f1419;
+      --x-hover: #272c30;
+      --accent-cyan: #38bdf8;
+      --accent-purple: #a855f7;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Ambient Background Glows */
+    .glow {
+      position: fixed;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      filter: blur(140px);
+      z-index: -1;
+      opacity: 0.22;
+      pointer-events: none;
+    }
+    .glow-1 { top: -150px; left: -100px; background: var(--linkedin-blue); }
+    .glow-2 { bottom: -150px; right: -100px; background: var(--accent-purple); }
+
+    .container {
+      width: 100%;
+      max-width: 540px;
+      animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Glassmorphism Card */
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: 28px;
+      padding: 2.75rem 2rem;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+
+    /* Profile Avatar */
+    .avatar-wrapper {
+      position: relative;
+      width: 96px;
+      height: 96px;
+      margin: 0 auto 1.25rem;
+    }
+
+    .avatar {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--linkedin-blue), var(--accent-purple));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.25rem;
+      font-weight: 800;
+      color: #ffffff;
+      box-shadow: 0 10px 25px rgba(10, 102, 194, 0.3);
+    }
+
+    .verified-badge {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      background: var(--accent-cyan);
+      color: #000;
+      border: 2px solid var(--bg-dark);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 800;
+    }
+
+    /* User Header Info */
+    h1 {
+      font-size: 1.85rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.35rem;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .tagline {
+      font-size: 0.95rem;
+      color: var(--accent-cyan);
+      font-weight: 600;
+      margin-bottom: 0.8rem;
+    }
+
+    .bio {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    /* Actions Stack */
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .connect-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      width: 100%;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 0.95rem 1.5rem;
+      border-radius: 16px;
+      font-size: 1rem;
+      font-weight: 700;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      border: 1px solid transparent;
+    }
+
+    /* LinkedIn Styling */
+    .btn-linkedin {
+      background: var(--linkedin-blue);
+      box-shadow: 0 10px 20px rgba(10, 102, 194, 0.3);
+    }
+    .btn-linkedin:hover {
+      background: var(--linkedin-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(10, 102, 194, 0.45);
+    }
+
+    /* X (Twitter) Styling */
+    .btn-x {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+    .btn-x:hover {
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .icon {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    /* Copy Link Boxes */
+    .link-boxes {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .link-box {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 12px;
+      padding: 0.6rem 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .link-text {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-family: monospace;
+    }
+
+    .copy-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-main);
+      padding: 0.35rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.18);
+    }
+
+    footer {
+      margin-top: 2rem;
+      font-size: 0.825rem;
+      color: var(--text-muted);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
+
+  <main class="container">
+    <div class="card">
+      
+      <!-- Profile Initials Avatar -->
+      <div class="avatar-wrapper">
+        <div class="avatar">VT</div>
+        <div class="verified-badge" title="Verified Creator">✓</div>
+      </div>
+
+      <!-- User Profile Header -->
+      <h1>Vaibhav Kumar Tiwari</h1>
+      <p class="tagline">Developer & AI Innovator</p>
+      <p class="bio">Building intelligent systems and AI companions like Elementra. Connect with me across platforms!</p>
+
+      <!-- Connection Buttons Stack -->
+      <div class="button-group">
+        <!-- LinkedIn Button -->
+        <a 
+          href="https://www.linkedin.com/in/vaibhav-kumar-tiwari-6701a0327" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="connect-btn btn-linkedin"
+        >
+          <svg class="icon" viewBox="0 0 24 24">
+            <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.25V10.9H6.46M7.86 6.78a1.62 1.62 0 1 0 0 3.24 1.62 1.62 0 0 0 0-3.24Z"/>
+          </svg>
+          Connect on LinkedIn
+        </a>
+
+        <!-- X (Twitter) Button -->
+        <a 
+          href="https://x.com/TiwaVaibha68450" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="connect-btn btn-x"
+        >
+          <svg class="icon" viewBox="0 0 24 24">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+          Follow on X
+        </a>
+      </div>
+
+      <!-- Quick Copy Link Boxes -->
+      <div class="link-boxes">
+        <div class="link-box">
+          <span class="link-text">linkedin.com/in/vaibhav-kumar-tiwari...</span>
+          <button class="copy-btn" onclick="copyLink('https://www.linkedin.com/in/vaibhav-kumar-tiwari-6701a0327', this)">Copy LinkedIn</button>
+        </div>
+
+        <div class="link-box">
+          <span class="link-text">x.com/TiwaVaibha68450</span>
+          <button class="copy-btn" onclick="copyLink('https://x.com/TiwaVaibha68450', this)">Copy X Link</button>
+        </div>
+      </div>
+
+      <footer>
+        Let's collaborate, innovate, and build together!
+      </footer>
+
+    </div>
+  </main>
+
+  <script>
+    // Copy URL to Clipboard helper
+    function copyLink(url, element) {
+      navigator.clipboard.writeText(url).then(() => {
+        const originalText = element.innerText;
+        element.innerText = '✨ Copied!';
+        element.style.background = '#38bdf8';
+        element.style.color = '#000';
+        
+        setTimeout(() => {
+          element.innerText = originalText;
+          element.style.background = 'rgba(255, 255, 255, 0.08)';
+          element.style.color = '#f8fafc';
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>

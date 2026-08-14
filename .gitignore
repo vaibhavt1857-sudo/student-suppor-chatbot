@@ -1,0 +1,29 @@
+.env
+# Ignore model files
+*.safetensors
+*.pt
+*.bin
+
+# Ignore dataset files
+*.parquet
+*.arrow
+*.csv
+*.tsv
+
+# Ignore checkpoints and optimizer states
+checkpoint/
+checkpoints/
+*.ckpt
+*.pth
+*.tar
+
+# Ignore large archives
+*.zip
+*.rar
+*.7z
+
+# Ignore cache and temp files
+__pycache__/
+*.log
+*.tmp
+

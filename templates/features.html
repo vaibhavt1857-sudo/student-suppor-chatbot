@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Elementra — AI Features & Technical Architecture</title>
+  
+  <!-- Modern Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-dark: #070a13;
+      --card-bg: rgba(15, 23, 42, 0.65);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-hover-border: rgba(56, 189, 248, 0.3);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-cyan: #38bdf8;
+      --accent-purple: #c084fc;
+      --accent-emerald: #34d399;
+      --accent-pink: #f472b6;
+      --code-bg: rgba(0, 0, 0, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding: 3rem 1.5rem;
+      position: relative;
+    }
+
+    /* Dynamic Glow Elements */
+    .glow {
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      filter: blur(150px);
+      z-index: -1;
+      opacity: 0.2;
+      pointer-events: none;
+    }
+    .glow-top { top: -200px; left: 10%; background: var(--accent-purple); }
+    .glow-bottom { bottom: -200px; right: 10%; background: var(--accent-cyan); }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 1.2rem;
+      border-radius: 50px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      color: var(--accent-cyan);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, var(--accent-cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    /* Grid Layout for Tech Categories */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+      gap: 1.75rem;
+    }
+
+    /* Technology Glass Cards */
+    .tech-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 2rem;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tech-card:hover {
+      border-color: var(--card-hover-border);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.85rem;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .card-icon {
+      font-size: 1.6rem;
+    }
+
+    .card-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    /* Feature List inside Cards */
+    .feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .feature-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .feature-name {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      font-size: 1.05rem;
+      color: var(--accent-cyan);
+    }
+
+    .feature-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      padding: 0.15rem 0.5rem;
+      background: var(--code-bg);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      color: var(--accent-purple);
+      font-weight: 400;
+    }
+
+    .feature-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      padding-left: 0.2rem;
+    }
+
+    /* Accent themes per card */
+    .nlp .feature-name { color: var(--accent-cyan); }
+    .genai .feature-name { color: var(--accent-purple); }
+    .vision .feature-name { color: var(--accent-pink); }
+    .backend .feature-name { color: var(--accent-emerald); }
+
+    /* Footer Stats & Actions */
+    .footer-bar {
+      margin-top: 3.5rem;
+      text-align: center;
+      padding: 2rem;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-info {
+      text-align: left;
+    }
+
+    .footer-info h4 {
+      font-size: 1.1rem;
+      color: var(--text-main);
+    }
+
+    .footer-info p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .copy-btn {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      color: #fff;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .copy-btn:hover {
+      opacity: 0.9;
+      transform: scale(1.02);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .tech-grid { grid-template-columns: 1fr; }
+      h1 { font-size: 2.2rem; }
+      .footer-bar { flex-direction: column; text-align: center; }
+      .footer-info { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow glow-top"></div>
+  <div class="glow glow-bottom"></div>
+
+  <main class="container">
+    
+    <header>
+      <div class="badge">🔑 Technical Architecture</div>
+      <h1>AI Features & Libraries in Elementra</h1>
+      <p class="subtitle">An overview of the machine learning models, frameworks, and generative engines powering Elementra's learning system.</p>
+    </header>
+
+    <div class="tech-grid">
+      
+      <!-- NLP Section -->
+      <section class="tech-card nlp">
+        <div class="card-header">
+          <span class="card-icon">🧠</span>
+          <h2 class="card-title">Natural Language Processing</h2>
+        </div>
+        <div class="feature-list">
+          <div class="feature-item">
+            <div class="feature-name">
+              DistilBERT <span class="feature-tag">Hugging Face Transformers</span>
+            </div>
+            <p class="feature-desc">Lightweight transformer model engineered for high-accuracy intent recognition and context question answering.</p>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-name">
+              Custom Multi-Task Model <span class="feature-tag">DistilBertForQAAndIntent</span>
+            </div>
+            <p class="feature-desc">Custom architecture trained to process Q&A extraction and intent classification in a single parallel inference step.</p>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-name">
+              Tokenizer <span class="feature-tag">DistilBertTokenizerFast</span>
+            </div>
+            <p class="feature-desc">Fast tokenization pipeline for efficient student prompt processing and sequence padding.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Generative AI Section -->
+      <section class="tech-card genai">
+        <div class="card-header">
+          <span class="card-icon">💬</span>
+          <h2 class="card-title">Generative AI</h2>
+        </div>
+        <div class="feature-list">
+          <div class="feature-item">
+            <div class="feature-name">
+              Google Gemini API <span class="feature-tag">google.generativeai</span>
+            </div>
+            <p class="feature-desc">Drives creative, contextual, human-like dialogue, instant topic summaries, and complex concept explanations.</p>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-name">
+              Flask Route Integration <span class="feature-tag">Python API</span>
+            </div>
+            <p class="feature-desc">Seamlessly connects LLM streaming and conversational responses directly into backend web endpoints.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Image Generation Section -->
+      <section class="tech-card vision">
+        <div class="card-header">
+          <span class="card-icon">🎨</span>
+          <h2 class="card-title">Image Generation</h2>
+        </div>
+        <div class="feature-list">
+          <div class="feature-item">
+            <div class="feature-name">
+              Stable Diffusion <span class="feature-tag">diffusers</span>
+            </div>
+            <p class="feature-desc">Generates educational diagrams, conceptual visual aids, and custom images based on student prompt inputs.</p>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-name">
+              PyTorch <span class="feature-tag">torch</span>
+            </div>
+            <p class="feature-desc">Powers underlying neural network tensor operations across CPU and CUDA GPU hardware acceleration.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Backend Framework Section -->
+      <section class="tech-card backend">
+        <div class="card-header">
+          <span class="card-icon">⚙️</span>
+          <h2 class="card-title">Backend & Data Utilities</h2>
+        </div>
+        <div class="feature-list">
+          <div class="feature-item">
+            <div class="feature-name">
+              Flask & Jinja2 <span class="feature-tag">Web Framework</span>
+            </div>
+            <p class="feature-desc">Lightweight web backend utilizing Jinja2 templates for dynamic HTML page rendering (`index.html`, `ai-features.html`).</p>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-name">
+              JSON & Intent Mapping <span class="feature-tag">intents.json</span>
+            </div>
+            <p class="feature-desc">Structured intent repository mapping student queries to predefined contextual logic and fallback routes.</p>
+          </div>
+
+          <div class="feature-item">
+            <div class="feature-name">
+              Security & Utilities <span class="feature-tag">dotenv • UUID • OS</span>
+            </div>
+            <p class="feature-desc">Secure environment variable handling (`python-dotenv`), cross-platform path handling, and unique image file naming.</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <div class="footer-bar">
+      <div class="footer-info">
+        <h4>Elementra Technology Stack</h4>
+        <p>Built with Python, PyTorch, Transformers & Flask</p>
+      </div>
+      <button class="copy-btn" id="copyStackBtn">📋 Copy Tech Spec</button>
+    </div>
+
+  </main>
+
+  <script>
+    // Copy Spec Summary Button
+    document.getElementById('copyStackBtn').addEventListener('click', function() {
+      const summaryText = `Elementra AI Features & Stack:
+• NLP: DistilBERT, DistilBertForQAAndIntent, DistilBertTokenizerFast
+• GenAI: Google Gemini API (google.generativeai)
+• Vision: Stable Diffusion (diffusers), PyTorch
+• Backend: Flask, Jinja2, python-dotenv, UUID, OS`;
+      
+      navigator.clipboard.writeText(summaryText).then(() => {
+        const originalText = this.innerText;
+        this.innerText = '✨ Copied to Clipboard!';
+        setTimeout(() => this.innerText = originalText, 2500);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+====================================================================
+Multi-Task DistilBERT Fine-Tuning Training Report
+====================================================================
+Datasets Used      : TriviaQA RC (26 parquets), HuggingFace MS MARCO, intents.json
+Base Model         : distilbert-base-uncased
+Task Type          : Question Answering (Extractive) & Intent Classification
+Device             : CPU
+
+HYPERPARAMETERS:
+--------------------------------------------------------------------
+Epochs             : 3
+Batch Size         : 16
+Learning Rate      : 2e-05
+Optimizer          : AdamW (weight_decay=0.01)
+Max Sequence Len   : 192
+Doc Stride         : 64
+
+DATASET STATISTICS:
+--------------------------------------------------------------------
+TriviaQA RC Samples: 390 (loaded across all 26 parquet files)
+MS MARCO Samples   : 200
+Intent Patterns    : 126 (13 intent classes)
+Training Samples   : 823
+Validation Samples : 145
+
+TRAINING PERFORMANCE:
+--------------------------------------------------------------------
+Total Training Time: 1327.18 seconds (22.12 minutes)
+Global Steps       : 156
+Training Loss      : 4.2483
+
+EVALUATION METRICS (Validation Set):
+--------------------------------------------------------------------
+Validation Loss    : 2.7057
+Start Pos Accuracy : 0.00%
+End Pos Accuracy   : 0.00%
+Exact Match Acc    : 0.00%
+Intent Accuracy    : 2.76%
+
+INTENT CLASSES (13):
+--------------------------------------------------------------------
+{
+  "0": "admission",
+  "1": "contact",
+  "2": "courses",
+  "3": "exams",
+  "4": "fees",
+  "5": "goodbye",
+  "6": "greeting",
+  "7": "help",
+  "8": "hostel",
+  "9": "library",
+  "10": "name",
+  "11": "results",
+  "12": "thanks"
+}
+
+TRAINING LOG HISTORY:
+--------------------------------------------------------------------
+{"loss": 7.455374145507813, "grad_norm": 9.712108612060547, "learning_rate": 1.8846153846153846e-05, "epoch": 0.19230769230769232, "step": 10}
+{"loss": 6.740190124511718, "grad_norm": 12.461699485778809, "learning_rate": 1.7564102564102566e-05, "epoch": 0.38461538461538464, "step": 20}
+{"loss": 5.944297790527344, "grad_norm": 11.800909996032715, "learning_rate": 1.6282051282051282e-05, "epoch": 0.5769230769230769, "step": 30}
+{"loss": 5.294418716430664, "grad_norm": 11.851101875305176, "learning_rate": 1.5000000000000002e-05, "epoch": 0.7692307692307693, "step": 40}
+{"loss": 4.539547729492187, "grad_norm": 13.154508590698242, "learning_rate": 1.3717948717948718e-05, "epoch": 0.9615384615384616, "step": 50}
+{"eval_loss": 3.94024395942688, "eval_start_accuracy": 0.0, "eval_end_accuracy": 0.0, "eval_exact_match_accuracy": 0.0, "eval_intent_accuracy": 0.006896551724137931, "eval_runtime": 17.7156, "eval_samples_per_second": 8.185, "eval_steps_per_second": 0.564, "epoch": 1.0, "step": 52}
+{"loss": 4.21107292175293, "grad_norm": 15.334693908691406, "learning_rate": 1.2435897435897436e-05, "epoch": 1.1538461538461537, "step": 60}
+{"loss": 4.157175827026367, "grad_norm": 11.831676483154297, "learning_rate": 1.1153846153846154e-05, "epoch": 1.3461538461538463, "step": 70}
+{"loss": 3.6877372741699217, "grad_norm": 11.110392570495605, "learning_rate": 9.871794871794872e-06, "epoch": 1.5384615384615383, "step": 80}
+{"loss": 3.428958511352539, "grad_norm": 11.146693229675293, "learning_rate": 8.58974358974359e-06, "epoch": 1.7307692307692308, "step": 90}
+{"loss": 3.565016174316406, "grad_norm": 12.74106216430664, "learning_rate": 7.307692307692308e-06, "epoch": 1.9230769230769231, "step": 100}
+{"eval_loss": 3.0091893672943115, "eval_start_accuracy": 0.0, "eval_end_accuracy": 0.0, "eval_exact_match_accuracy": 0.0, "eval_intent_accuracy": 0.020689655172413793, "eval_runtime": 19.3961, "eval_samples_per_second": 7.476, "eval_steps_per_second": 0.516, "epoch": 2.0, "step": 104}
+{"loss": 3.31408805847168, "grad_norm": 12.782526016235352, "learning_rate": 6.025641025641026e-06, "epoch": 2.1153846153846154, "step": 110}
+{"loss": 3.2543098449707033, "grad_norm": 14.449453353881836, "learning_rate": 4.743589743589744e-06, "epoch": 2.3076923076923075, "step": 120}
+{"loss": 2.9116565704345705, "grad_norm": 10.654936790466309, "learning_rate": 3.4615384615384617e-06, "epoch": 2.5, "step": 130}
+{"loss": 2.9483938217163086, "grad_norm": 10.92966365814209, "learning_rate": 2.1794871794871797e-06, "epoch": 2.6923076923076925, "step": 140}
+{"loss": 3.105788803100586, "grad_norm": 10.319543838500977, "learning_rate": 8.974358974358975e-07, "epoch": 2.8846153846153846, "step": 150}
+{"eval_loss": 2.7056808471679688, "eval_start_accuracy": 0.0, "eval_end_accuracy": 0.0, "eval_exact_match_accuracy": 0.0, "eval_intent_accuracy": 0.027586206896551724, "eval_runtime": 18.0445, "eval_samples_per_second": 8.036, "eval_steps_per_second": 0.554, "epoch": 3.0, "step": 156}
+{"train_runtime": 1295.384, "train_samples_per_second": 1.906, "train_steps_per_second": 0.12, "total_flos": 120996873339264.0, "train_loss": 4.248264875167456, "epoch": 3.0, "step": 156}
+{"eval_loss": 2.7056808471679688, "eval_start_accuracy": 0.0, "eval_end_accuracy": 0.0, "eval_exact_match_accuracy": 0.0, "eval_intent_accuracy": 0.027586206896551724, "eval_runtime": 19.4579, "eval_samples_per_second": 7.452, "eval_steps_per_second": 0.514, "epoch": 3.0, "step": 156}
+====================================================================
+Model Artifacts Saved To:
+- student-support-chatbot/models/distilbert_qa/
+- models/distilbert_qa/
+- chatbot_project/models/distilbert_qa/
+Status: COMPLETED SUCCESSFULLY
+====================================================================
