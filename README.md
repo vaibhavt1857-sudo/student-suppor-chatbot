@@ -1,4 +1,9 @@
 # Student Support Chatbot: End-to-End AI-Driven Academic & Campus Assistance System
+## 📌 Main Project File
+- **run.py**  
+- To run:  
+  ```bash
+  python run.py
 
 ## Executive Summary & System Overview
 
