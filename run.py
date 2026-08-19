@@ -45,52 +45,15 @@ tag2responses = {item["tag"]: item.get("responses", ["How can I assist you?"]) f
 # -----------------------------
 print("Loading DistilBERT model from Hugging Face...")
 
+# Use pretrained DistilBERT QA model
 model_name = "distilbert-base-uncased-distilled-squad"
+
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
+# If you have custom intent labels, set them here
 num_intents = 13
 model = DistilBertForQAAndIntent.from_pretrained(model_name, num_intent_labels=num_intents)
 model.eval()
-
-# -----------------------------
-# NEW: Chatbot Response Function
-# -----------------------------
-def chatbot_response(user_message, context_text=""):
-    user_message = user_message.strip().lower()
-    if not user_message:
-        return "Please enter a valid message or question."
-
-    if user_message in ["hi", "hello", "hey"]:
-        return "Hello! I am Elementra, your AI assistant, developed by VAIBHAV KUMAR TIWARI."
-
-    if user_message in ["who are you", "what are you", "introduce yourself"]:
-        return "I am Elementra, proudly developed by VAIBHAV KUMAR TIWARI."
-
-    if "who built you" in user_message:
-        return "I was built by VAIBHAV KUMAR TIWARI."
-
-    if "your name" in user_message:
-        return "My name is Elementra."
-
-    if context_text:
-        inputs = tokenizer(user_message, context_text, return_tensors="pt", max_length=192, truncation="longest_first")
-        with torch.no_grad():
-            outputs = model(**inputs)
-
-        start_idx = torch.argmax(outputs["start_logits"])
-        end_idx = torch.argmax(outputs["end_logits"])
-        if end_idx >= start_idx:
-            predict_tokens = inputs.input_ids[0][start_idx:end_idx+1]
-            predicted_answer = tokenizer.decode(predict_tokens, skip_special_tokens=True).strip()
-            if predicted_answer:
-                return predicted_answer
-
-    gemini_reply = gemini_answer(user_message)
-    developer_name = "VAIBHAV KUMAR TIWARI"
-    for word in ["Gemini", "Google", "Google Gemini", "Gemini AI"]:
-        gemini_reply = gemini_reply.replace(word, developer_name)
-
-    return gemini_reply
 
 # -----------------------------
 # 4. Flask Routes
@@ -102,10 +65,43 @@ def home():
 @app.route("/ask", methods=["POST"])
 def ask():
     data = request.json or {}
-    user_message = data.get("message", "").strip()
+    user_message = data.get("message", "").strip().lower()
     context_text = data.get("context", "").strip()
-    reply = chatbot_response(user_message, context_text)
-    return jsonify({"reply": reply})
+
+    if not user_message:
+        return jsonify({"reply": "Please enter a valid message or question."})
+
+    if user_message in ["hi", "hello", "hey"]:
+        return jsonify({"reply": "Hello! I am Elementra, your AI assistant, developed by VAIBHAV KUMAR TIWARI.", "type": "identity"})
+
+    if user_message in ["who are you", "what are you", "introduce yourself"]:
+        return jsonify({"reply": "I am Elementra, proudly developed by VAIBHAV KUMAR TIWARI.", "type": "identity"})
+
+    if "who built you" in user_message:
+        return jsonify({"reply": "I was built by VAIBHAV KUMAR TIWARI.", "type": "identity"})
+
+    if "your name" in user_message:
+        return jsonify({"reply": "My name is Elementra.", "type": "identity"})
+
+    if context_text:
+        inputs = tokenizer(user_message, context_text, return_tensors="pt", max_length=192, truncation="longest_first")
+        with torch.no_grad():
+            outputs = model(**inputs)
+
+        start_idx = torch.argmax(outputs["start_logits"])
+        end_idx = torch.argmax(outputs["end_logits"])
+        if end_idx >= start_idx:
+            predict_tokens = inputs.input_ids[0][start_idx : end_idx + 1]
+            predicted_answer = tokenizer.decode(predict_tokens, skip_special_tokens=True).strip()
+            if predicted_answer:
+                return jsonify({"reply": predicted_answer, "type": "qa"})
+
+    gemini_reply = gemini_answer(user_message)
+    developer_name = "VAIBHAV KUMAR TIWARI"
+    for word in ["Gemini", "Google", "Google Gemini", "Gemini AI"]:
+        gemini_reply = gemini_reply.replace(word, developer_name)
+
+    return jsonify({"reply": gemini_reply, "type": "gemini"})
 
 # -----------------------------
 # Navigation Page Routes
@@ -153,6 +149,7 @@ def generate_image():
     prompt = data.get("prompt", "")
 
     try:
+        # Faster defaults: fewer steps + smaller resolution
         image = pipe(prompt, num_inference_steps=25, height=384, width=384).images[0]
         image_path = os.path.join("static", f"generated_{uuid.uuid4().hex}.png")
         image.save(image_path)
@@ -167,4 +164,3 @@ def generate_image():
 if __name__ == "__main__":
     print("Flask app starting on http://127.0.0.1:5000 ...")
     app.run(debug=True, port=5000)
-# main UI entry point
